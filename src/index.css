@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Rajdhani", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-system-cyan: #00F0FF; /* High-intensity neon cyan */
+  --color-system-blue: #00A3FF; /* Cyan-blue bridge */
+  --color-system-violet: #8A2BE2; /* High-intensity neon purple */
+  --color-system-pink: #ec4899; /* Accent pink */
+  --color-system-black: #050505; /* Sleek absolute deep black background */
+  --color-system-card: #0A0A0B; /* Deep card background */
+  --color-system-dark: #0D0D0F; /* Section panels background */
+  --color-system-border: #1A1A1A; /* Sharp layout borders */
+}
+
+/* Custom glow effects for Solo Leveling's "The System" UI */
+.glow-cyan {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.65), 0 0 3px rgba(0, 240, 255, 0.85);
+}
+.glow-purple {
+  text-shadow: 0 0 12px rgba(138, 43, 226, 0.65), 0 0 3px rgba(138, 43, 226, 0.85);
+}
+.border-glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.08);
+  border-color: rgba(0, 240, 255, 0.35);
+}
+.border-glow-purple {
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(138, 43, 226, 0.08);
+  border-color: rgba(138, 43, 226, 0.35);
+}
+.bg-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.3) 50%
+  ), linear-gradient(
+    95deg,
+    rgba(0, 240, 255, 0.03),
+    rgba(138, 43, 226, 0.03),
+    rgba(236, 72, 153, 0.02)
+  );
+  background-size: 100% 4px, 100% 100%;
+}
+.shadow-neon-cyan {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
+}
+.shadow-neon-purple {
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.45);
+}
+
+/* Hide scrollbar for clean App look */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.55);
+}

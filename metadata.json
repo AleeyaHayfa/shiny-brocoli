@@ -1,0 +1,6 @@
+{
+  "name": "Shadow Leveling",
+  "description": "A gamified body recomposition and fitness tracker inspired by the Solo Leveling system, built with dark cyberpunk aesthetics and tracking quests.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

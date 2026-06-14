@@ -1,0 +1,22 @@
+{
+  "name": "Shadow Leveling - Solo Fitness System",
+  "short_name": "Shadow Level",
+  "description": "Inspired by the Solo Leveling anime system: gamified progressive overload workout and meal plan generator for body recomposition.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#030712",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/nolan/256/sword.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/nolan/512/sword.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
