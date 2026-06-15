@@ -64,8 +64,16 @@ export default function App() {
   const [plan, setPlan] = useState<WeeklyPlan>(() => {
     const raw = localStorage.getItem('shadow_fitness_plan');
     if (raw) return JSON.parse(raw);
-    const tempStats = stats || { age: 24, height: 150, currentWeight: 68, targetWeight: 60, goal: 'recomp' };
-    return generatePlan(tempStats, currentWeek);
+    return {
+      workouts: [],
+      nutrition: {
+        calories: 1800,
+        protein: 120,
+        carbs: 200,
+        fat: 55,
+        recommendations: []
+      }
+    };
   });
 
   const [quests, setQuests] = useState<Quest[]>(() => {
@@ -138,33 +146,39 @@ export default function App() {
 
   // Seeding Quests Helper
   const seedQuestsForDay = (currentPlan: WeeklyPlan) => {
-    // Select the first workout day as today's active quest
-    const todayWorkout = currentPlan.workouts[0];
     const generatedQuests: Quest[] = [];
 
+    // Select the first workout day as today's active quest if available
+    const todayWorkout = currentPlan.workouts && currentPlan.workouts.length > 0 ? currentPlan.workouts[0] : null;
+
     // Add Workout Quests
-    todayWorkout.exercises.forEach((ex, idx) => {
-      generatedQuests.push({
-        id: `workout_${idx}`,
-        category: 'workout',
-        title: `Exercise: ${ex.name}`,
-        description: `Perform ${ex.sets} sets of ${ex.reps}. ${ex.instruction}`,
-        completed: false,
-        expReward: 25 + idx * 5
+    if (todayWorkout && todayWorkout.exercises) {
+      todayWorkout.exercises.forEach((ex, idx) => {
+        generatedQuests.push({
+          id: `workout_${idx}`,
+          category: 'workout',
+          title: `Exercise: ${ex.name}`,
+          description: `Perform ${ex.sets} sets of ${ex.reps}. ${ex.instruction}`,
+          completed: false,
+          expReward: 25 + idx * 5
+        });
       });
-    });
+    }
 
     // Add Nutrition Quests
-    currentPlan.nutrition.recommendations.forEach((meal, idx) => {
-      generatedQuests.push({
-        id: `nutrition_${idx}`,
-        category: 'nutrition',
-        title: `Eat: ${meal.meal} Target`,
-        description: `Adhere to Smart Choice: ${meal.options[0].split(':')[0]}`,
-        completed: false,
-        expReward: 15
+    if (currentPlan.nutrition && currentPlan.nutrition.recommendations) {
+      currentPlan.nutrition.recommendations.forEach((meal, idx) => {
+        const optionText = meal.options && meal.options.length > 0 ? meal.options[0].split(':')[0] : 'Choose wholesome choices';
+        generatedQuests.push({
+          id: `nutrition_${idx}`,
+          category: 'nutrition',
+          title: `Eat: ${meal.meal} Target`,
+          description: `Adhere to Smart Choice: ${optionText}`,
+          completed: false,
+          expReward: 15
+        });
       });
-    });
+    }
 
     setQuests(generatedQuests);
   };
@@ -178,11 +192,20 @@ export default function App() {
     ];
     setWeightLogs(list);
     
-    // Generate active plan
-    const generatedPlan = generatePlan(newStats, 1);
-    setPlan(generatedPlan);
+    // Generate active plan as a clean slate (empty workouts and no meal items)
+    const emptyPlan: WeeklyPlan = {
+      workouts: [],
+      nutrition: {
+        calories: 1800,
+        protein: 120,
+        carbs: 200,
+        fat: 55,
+        recommendations: []
+      }
+    };
+    setPlan(emptyPlan);
     setCurrentWeek(1);
-    seedQuestsForDay(generatedPlan);
+    seedQuestsForDay(emptyPlan);
     playSystemSound('levelup');
   };
 

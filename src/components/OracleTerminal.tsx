@@ -234,10 +234,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
           </div>
           <div>
             <h2 className="font-display text-xl font-bold italic uppercase text-white tracking-widest flex items-center gap-1.5">
-              Routine & Diet Oracle
+              Routine & Diet Planner
             </h2>
             <p className="font-mono text-[10px] text-gray-400">
-              PLAN GENERATOR & CUSTOMIZER
+              CUSTOMIZE OR AUTO-GENERATE YOUR PROTOCOLS
             </p>
           </div>
         </div>
@@ -272,7 +272,7 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
           </button>
         </div>
         <p className="font-mono text-[9.5px] text-gray-400 leading-relaxed">
-          Changing the week automatically adjusts your exercises (sets and reps) and diet macros to keep challenging you and help you of getting stronger over time. You can also edit any routine below!
+          Select your training week. This updates exercise intensities and meal plans to match your progress. You can also edit and type in your own customized days below!
         </p>
       </div>
 
@@ -335,149 +335,165 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                 </button>
               </div>
 
-              {plan.workouts.map((rout, index) => (
-                <div key={index} className="p-4 bg-system-card border border-system-border rounded-sm space-y-3 relative">
-                  <div className="flex justify-between items-center border-b border-system-border pb-2">
-                    <span className="font-display font-bold text-sm tracking-wide text-white italic">
-                      {rout.day}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      {editingDayIndex === index ? (
-                        <span className="font-mono text-[9px] px-2 py-0.5 rounded-sm bg-system-pink/10 border border-system-pink/20 text-system-pink select-none uppercase animate-pulse">
-                          EDITING...
-                        </span>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => startEditingDay(index)}
-                            className="px-2 py-0.5 font-display uppercase tracking-wider italic text-[9px] text-system-cyan border border-system-cyan/20 hover:border-system-cyan bg-system-cyan/5 transition-all cursor-pointer flex items-center gap-1"
-                          >
-                            <Edit2 size={9} /> Edit Routine
-                          </button>
-                          <button
-                            onClick={() => deleteWorkoutDay(index)}
-                            className="px-2 py-0.5 font-display uppercase tracking-wider text-[9px] text-red-400 border border-red-500/20 hover:border-red-500 bg-red-500/5 transition-all cursor-pointer flex items-center gap-1 font-bold italic"
-                            title="Delete Routine Day"
-                          >
-                            <Trash2 size={9} /> Delete Day
-                          </button>
-                        </div>
-                      )}
-                    </div>
+              {plan.workouts.length === 0 ? (
+                <div className="p-6 border border-system-border bg-system-dark/35 text-center space-y-3">
+                  <div className="text-system-cyan flex justify-center">
+                    <Flame size={24} className="animate-pulse" />
                   </div>
-
-                  {editingDayIndex === index ? (
-                    <div className="space-y-4 pt-1 animate-fade-in" id={`edit-day-${index}-form`}>
-                      <div className="flex justify-between items-center text-[10px] uppercase font-bold text-system-cyan tracking-widest pl-1">
-                        <span>Modify Exercise Sequence</span>
-                        <button
-                          onClick={addDraftExercise}
-                          className="px-2.5 py-1 text-[9px] bg-system-black border border-system-cyan/30 text-system-cyan hover:border-system-cyan transition-colors flex items-center gap-1 cursor-pointer"
-                        >
-                          <Plus size={10} /> Add Exercise
-                        </button>
-                      </div>
-
-                      <div className="space-y-4">
-                        {draftExercises.length === 0 ? (
-                          <div className="p-4 border border-system-border bg-system-dark/30 text-center text-gray-500 font-mono text-[10px] italic">
-                            NO EXERCISES CURRENTLY ASSIGNED. CLICK "+ Add Exercise" TO BEGIN.
-                          </div>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display text-sm font-black uppercase italic tracking-wider text-white">
+                      Workout protocols start empty
+                    </h3>
+                    <p className="font-mono text-[10px] text-gray-400 leading-relaxed max-w-sm mx-auto">
+                      All files have been cleared for a clean slate. Tap <span className="text-system-cyan font-bold">"+ Add New Day / Routine"</span> above to type in your own customized exercise sheets, or slide the <span className="text-system-cyan font-bold">System Week Range</span> at the top to auto-fill an adaptive daily preset!
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                plan.workouts.map((rout, index) => (
+                  <div key={index} className="p-4 bg-system-card border border-system-border rounded-sm space-y-3 relative">
+                    <div className="flex justify-between items-center border-b border-system-border pb-2">
+                      <span className="font-display font-bold text-sm tracking-wide text-white italic">
+                        {rout.day}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {editingDayIndex === index ? (
+                          <span className="font-mono text-[9px] px-2 py-0.5 rounded-sm bg-system-pink/10 border border-system-pink/20 text-system-pink select-none uppercase animate-pulse">
+                            EDITING...
+                          </span>
                         ) : (
-                          draftExercises.map((draftEx, dIdx) => (
-                            <div key={dIdx} className="p-3 bg-system-black border border-system-border/60 relative space-y-2">
-                              <button
-                                onClick={() => deleteDraftExercise(dIdx)}
-                                className="absolute top-2 right-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
-                                title="Delete Exercise"
-                              >
-                                <Trash2 size={12} />
-                              </button>
-                              <div className="flex items-center gap-2">
-                                <span className="font-mono text-[10px] text-gray-500">#{dIdx + 1}</span>
-                                <input
-                                  type="text"
-                                  value={draftEx.name}
-                                  onChange={(e) => updateDraftField(dIdx, 'name', e.target.value)}
-                                  className="flex-1 bg-transparent border-b border-system-border focus:border-system-cyan text-xs font-display font-bold uppercase text-white outline-none pb-0.5"
-                                  placeholder="Exercise Name"
-                                />
-                              </div>
-                              <div className="grid grid-cols-2 gap-2">
-                                <div className="flex items-center gap-1.5">
-                                  <span className="font-mono text-[9px] text-gray-600 block w-9">Sets:</span>
-                                  <input
-                                    type="number"
-                                    min="1"
-                                    value={draftEx.sets === 0 ? '' : draftEx.sets}
-                                    onChange={(e) => {
-                                      const val = e.target.value;
-                                      updateDraftField(dIdx, 'sets', val === '' ? 0 : parseInt(val) || 0);
-                                    }}
-                                    className="w-full bg-system-dark border border-system-border text-center text-xs py-0.5 outline-none font-mono text-white"
-                                  />
-                                </div>
-                                <div className="flex items-center gap-1.5">
-                                  <span className="font-mono text-[9px] text-gray-600 block w-9">Reps:</span>
-                                  <input
-                                    type="text"
-                                    value={draftEx.reps}
-                                    onChange={(e) => updateDraftField(dIdx, 'reps', e.target.value)}
-                                    className="w-full bg-system-dark border border-system-border text-center text-xs py-0.5 outline-none font-mono text-white"
-                                  />
-                                </div>
-                              </div>
-                              <div>
-                                <textarea
-                                  value={draftEx.instruction}
-                                  onChange={(e) => updateDraftField(dIdx, 'instruction', e.target.value)}
-                                  className="w-full bg-system-dark border border-system-border text-[10px] p-1.5 text-gray-400 font-mono outline-none resize-none h-12 leading-normal"
-                                  placeholder="Movement / execution form instructions"
-                                />
-                              </div>
-                            </div>
-                          ))
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => startEditingDay(index)}
+                              className="px-2 py-0.5 font-display uppercase tracking-wider italic text-[9px] text-system-cyan border border-system-cyan/20 hover:border-system-cyan bg-system-cyan/5 transition-all cursor-pointer flex items-center gap-1"
+                            >
+                              <Edit2 size={9} /> Edit Routine
+                            </button>
+                            <button
+                              onClick={() => deleteWorkoutDay(index)}
+                              className="px-2 py-0.5 font-display uppercase tracking-wider text-[9px] text-red-400 border border-red-500/20 hover:border-red-500 bg-red-500/5 transition-all cursor-pointer flex items-center gap-1 font-bold italic"
+                              title="Delete Routine Day"
+                            >
+                              <Trash2 size={9} /> Delete Day
+                            </button>
+                          </div>
                         )}
                       </div>
+                    </div>
 
-                      <div className="grid grid-cols-2 gap-2 pt-2">
-                        <button
-                          onClick={cancelDayChanges}
-                          className="py-2 bg-system-black border border-system-border hover:border-gray-500 text-gray-400 font-display text-[10px] font-extrabold uppercase italic tracking-widest cursor-pointer"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={saveDayChanges}
-                          className="py-2 bg-system-cyan/15 border border-system-cyan text-system-cyan hover:bg-system-cyan/20 font-display text-[10px] font-extrabold uppercase italic tracking-widest cursor-pointer"
-                        >
-                          Save Day
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {rout.exercises.map((ex, idx) => (
-                        <div key={idx} className="flex gap-3">
-                          <div className="pt-1 select-none">
-                            <span className="w-5 h-5 flex items-center justify-center border border-system-border rounded-none bg-system-black text-[10px] text-gray-500 font-mono font-bold">
-                              0{idx + 1}
-                            </span>
-                          </div>
-                          <div className="space-y-0.5">
-                            <h4 className="font-display font-black text-sm tracking-wider uppercase text-white flex items-center gap-1.5">
-                              {ex.name} <span className="font-mono text-[10px] text-system-cyan font-normal">{ex.sets}s <span>×</span> {ex.reps}</span>
-                            </h4>
-                            <p className="font-mono text-[10px] text-gray-400 leading-normal">
-                              {ex.instruction}
-                            </p>
-                          </div>
+                    {editingDayIndex === index ? (
+                      <div className="space-y-4 pt-1 animate-fade-in" id={`edit-day-${index}-form`}>
+                        <div className="flex justify-between items-center text-[10px] uppercase font-bold text-system-cyan tracking-widest pl-1">
+                          <span>Modify Exercise Sequence</span>
+                          <button
+                            onClick={addDraftExercise}
+                            className="px-2.5 py-1 text-[9px] bg-system-black border border-system-cyan/30 text-system-cyan hover:border-system-cyan transition-colors flex items-center gap-1 cursor-pointer"
+                          >
+                            <Plus size={10} /> Add Exercise
+                          </button>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+
+                        <div className="space-y-4">
+                          {draftExercises.length === 0 ? (
+                            <div className="p-4 border border-system-border bg-system-dark/30 text-center text-gray-500 font-mono text-[10px] italic">
+                              NO EXERCISES CURRENTLY ASSIGNED. CLICK "+ Add Exercise" TO BEGIN.
+                            </div>
+                          ) : (
+                            draftExercises.map((draftEx, dIdx) => (
+                              <div key={dIdx} className="p-3 bg-system-black border border-system-border/60 relative space-y-2">
+                                <button
+                                  onClick={() => deleteDraftExercise(dIdx)}
+                                  className="absolute top-2 right-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
+                                  title="Delete Exercise"
+                                >
+                                  <Trash2 size={12} />
+                                </button>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-[10px] text-gray-500">#{dIdx + 1}</span>
+                                  <input
+                                    type="text"
+                                    value={draftEx.name}
+                                    onChange={(e) => updateDraftField(dIdx, 'name', e.target.value)}
+                                    className="flex-1 bg-transparent border-b border-system-border focus:border-system-cyan text-xs font-display font-bold uppercase text-white outline-none pb-0.5"
+                                    placeholder="Exercise Name"
+                                  />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="font-mono text-[9px] text-gray-600 block w-9">Sets:</span>
+                                    <input
+                                      type="number"
+                                      min="1"
+                                      value={draftEx.sets === 0 ? '' : draftEx.sets}
+                                      onChange={(e) => {
+                                        const val = e.target.value;
+                                        updateDraftField(dIdx, 'sets', val === '' ? 0 : parseInt(val) || 0);
+                                      }}
+                                      className="w-full bg-system-dark border border-system-border text-center text-xs py-0.5 outline-none font-mono text-white"
+                                    />
+                                  </div>
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="font-mono text-[9px] text-gray-600 block w-9">Reps:</span>
+                                    <input
+                                      type="text"
+                                      value={draftEx.reps}
+                                      onChange={(e) => updateDraftField(dIdx, 'reps', e.target.value)}
+                                      className="w-full bg-system-dark border border-system-border text-center text-xs py-0.5 outline-none font-mono text-white"
+                                    />
+                                  </div>
+                                </div>
+                                <div>
+                                  <textarea
+                                    value={draftEx.instruction}
+                                    onChange={(e) => updateDraftField(dIdx, 'instruction', e.target.value)}
+                                    className="w-full bg-system-dark border border-system-border text-[10px] p-1.5 text-gray-400 font-mono outline-none resize-none h-12 leading-normal"
+                                    placeholder="Movement / execution form instructions"
+                                  />
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 pt-2">
+                          <button
+                            onClick={cancelDayChanges}
+                            className="py-2 bg-system-black border border-system-border hover:border-gray-500 text-gray-400 font-display text-[10px] font-extrabold uppercase italic tracking-widest cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={saveDayChanges}
+                            className="py-2 bg-system-cyan/15 border border-system-cyan text-system-cyan hover:bg-system-cyan/20 font-display text-[10px] font-extrabold uppercase italic tracking-widest cursor-pointer"
+                          >
+                            Save Day
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {rout.exercises.map((ex, idx) => (
+                          <div key={idx} className="flex gap-3">
+                            <div className="pt-1 select-none">
+                              <span className="w-5 h-5 flex items-center justify-center border border-system-border rounded-none bg-system-black text-[10px] text-gray-500 font-mono font-bold">
+                                0{idx + 1}
+                              </span>
+                            </div>
+                            <div className="space-y-0.5">
+                              <h4 className="font-display font-black text-sm tracking-wider uppercase text-white flex items-center gap-1.5">
+                                {ex.name} <span className="font-mono text-[10px] text-system-cyan font-normal">{ex.sets}s <span>×</span> {ex.reps}</span>
+                              </h4>
+                              <p className="font-mono text-[10px] text-gray-400 leading-normal">
+                                {ex.instruction}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           ) : (
             <div className="space-y-4 font-mono text-xs" id="oracle-nutrition-matrix">
@@ -689,6 +705,20 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                     </div>
                   </div>
                 ))
+              ) : plan.nutrition.recommendations.length === 0 ? (
+                <div className="p-6 border border-system-border bg-system-dark/35 text-center space-y-3">
+                  <div className="text-system-violet flex justify-center">
+                    <Apple size={24} className="animate-pulse" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display text-sm font-black uppercase italic tracking-wider text-white">
+                      Meal protocols start empty
+                    </h3>
+                    <p className="font-mono text-[10px] text-gray-400 leading-relaxed max-w-sm mx-auto">
+                      All meal items have been cleared for manual setup. Click <span className="text-system-violet font-bold">"📝 Edit Diet Plan"</span> above to set up your own customized items, or slide the <span className="text-system-violet font-bold">System Week Range</span> at the top to recreate progressive Malaysian shelf-stable recommendations!
+                    </p>
+                  </div>
+                </div>
               ) : (
                 plan.nutrition.recommendations.map((meal, idx) => (
                   <div key={idx} className="p-4 bg-system-card rounded-sm border border-system-border space-y-2.5">

@@ -297,40 +297,51 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
         </div>
 
         <div className="space-y-3" id="workout-quests-list">
-          {workoutQuests.map((quest) => (
-            <button
-              key={quest.id}
-              onClick={() => onQuestToggle(quest.id)}
-              className={`w-full p-4 rounded-sm border text-left flex items-start gap-4 transition-all ${
-                quest.completed
-                  ? 'bg-system-cyan/10 border-l-4 border-system-cyan border-y-system-border border-r-system-border'
-                  : 'bg-system-dark border-system-border hover:border-gray-800'
-              }`}
-            >
-              <div className="pt-0.5">
-                {quest.completed ? (
-                  <div className="w-5 h-5 bg-system-cyan flex items-center justify-center rounded-none shadow-neon-cyan select-none">
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-[#050505] fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg>
-                  </div>
-                ) : (
-                  <div className="w-5 h-5 border border-white/20 hover:border-system-cyan transition-colors rounded-none"></div>
-                )}
-              </div>
-              <div className="space-y-1 flex-1">
-                <div className="flex justify-between items-start gap-2">
-                  <h4 className={`font-display font-black text-sm tracking-wide uppercase italic ${quest.completed ? 'text-system-cyan glow-cyan' : 'text-white'}`}>
-                    {quest.title}
-                  </h4>
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-system-cyan/10 text-system-cyan font-bold whitespace-nowrap">
-                    +{quest.expReward} EXP
-                  </span>
+          {workoutQuests.length === 0 ? (
+            <div className="p-5 border border-system-border bg-system-dark/35 rounded-none text-center space-y-2.5">
+              <p className="font-display text-xs font-black uppercase text-gray-500 tracking-[0.05em] italic">
+                ⚔️ Workout list starts empty
+              </p>
+              <p className="font-mono text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">
+                No active workouts assigned. Based on your preferences, visit the <span className="text-system-cyan font-bold">Oracle tab</span> to type in your own customized exercise routine!
+              </p>
+            </div>
+          ) : (
+            workoutQuests.map((quest) => (
+              <button
+                key={quest.id}
+                onClick={() => onQuestToggle(quest.id)}
+                className={`w-full p-4 rounded-sm border text-left flex items-start gap-4 transition-all ${
+                  quest.completed
+                    ? 'bg-system-cyan/10 border-l-4 border-system-cyan border-y-system-border border-r-system-border'
+                    : 'bg-system-dark border-system-border hover:border-gray-800'
+                }`}
+              >
+                <div className="pt-0.5">
+                  {quest.completed ? (
+                    <div className="w-5 h-5 bg-system-cyan flex items-center justify-center rounded-none shadow-neon-cyan select-none">
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-[#050505] fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 border border-white/20 hover:border-system-cyan transition-colors rounded-none"></div>
+                  )}
                 </div>
-                <p className="font-mono text-[10px] text-gray-400 leading-normal">
-                  {quest.description}
-                </p>
-              </div>
-            </button>
-          ))}
+                <div className="space-y-1 flex-1">
+                  <div className="flex justify-between items-start gap-2">
+                    <h4 className={`font-display font-black text-sm tracking-wide uppercase italic ${quest.completed ? 'text-system-cyan glow-cyan' : 'text-white'}`}>
+                      {quest.title}
+                    </h4>
+                    <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-system-cyan/10 text-system-cyan font-bold whitespace-nowrap">
+                      +{quest.expReward} EXP
+                    </span>
+                  </div>
+                  <p className="font-mono text-[10px] text-gray-400 leading-normal">
+                    {quest.description}
+                  </p>
+                </div>
+              </button>
+            ))
+          )}
         </div>
       </div>
 
@@ -344,40 +355,51 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
         </div>
 
         <div className="space-y-3" id="nutrition-quests-list">
-          {nutritionQuests.map((quest) => (
-            <button
-              key={quest.id}
-              onClick={() => onQuestToggle(quest.id)}
-              className={`w-full p-4 rounded-sm border text-left flex items-start gap-4 transition-all ${
-                quest.completed
-                  ? 'bg-system-violet/15 border-l-4 border-system-violet border-y-system-border border-r-system-border'
-                  : 'bg-system-dark border-system-border hover:border-gray-800'
-              }`}
-            >
-              <div className="pt-0.5">
-                {quest.completed ? (
-                  <div className="w-5 h-5 bg-system-violet flex items-center justify-center rounded-none shadow-neon-purple select-none">
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-[#050505] fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg>
-                  </div>
-                ) : (
-                  <div className="w-5 h-5 border border-white/20 hover:border-system-violet transition-colors rounded-none"></div>
-                )}
-              </div>
-              <div className="space-y-1 flex-1">
-                <div className="flex justify-between items-start gap-2">
-                  <h4 className={`font-display font-black text-sm tracking-wide uppercase italic ${quest.completed ? 'text-system-violet glow-purple' : 'text-white'}`}>
-                    {quest.title}
-                  </h4>
-                  <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-system-violet/10 text-system-violet font-bold whitespace-nowrap">
-                    +{quest.expReward} EXP
-                  </span>
+          {nutritionQuests.length === 0 ? (
+            <div className="p-5 border border-system-border bg-system-dark/35 rounded-none text-center space-y-2.5">
+              <p className="font-display text-xs font-black uppercase text-gray-500 tracking-[0.05em] italic">
+                🍎 Diet list starts empty
+              </p>
+              <p className="font-mono text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">
+                No active meal plans assigned. Based on your preferences, visit the <span className="text-system-violet font-bold">Oracle tab</span> to type in your own customized diet and daily meal objectives!
+              </p>
+            </div>
+          ) : (
+            nutritionQuests.map((quest) => (
+              <button
+                key={quest.id}
+                onClick={() => onQuestToggle(quest.id)}
+                className={`w-full p-4 rounded-sm border text-left flex items-start gap-4 transition-all ${
+                  quest.completed
+                    ? 'bg-system-violet/15 border-l-4 border-system-violet border-y-system-border border-r-system-border'
+                    : 'bg-system-dark border-system-border hover:border-gray-800'
+                }`}
+              >
+                <div className="pt-0.5">
+                  {quest.completed ? (
+                    <div className="w-5 h-5 bg-system-violet flex items-center justify-center rounded-none shadow-neon-purple select-none">
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-[#050505] fill-none stroke-[3]"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 border border-white/20 hover:border-system-violet transition-colors rounded-none"></div>
+                  )}
                 </div>
-                <p className="font-mono text-[10px] text-gray-400 leading-normal">
-                  {quest.description}
-                </p>
-              </div>
-            </button>
-          ))}
+                <div className="space-y-1 flex-1">
+                  <div className="flex justify-between items-start gap-2">
+                    <h4 className={`font-display font-black text-sm tracking-wide uppercase italic ${quest.completed ? 'text-system-violet glow-purple' : 'text-white'}`}>
+                      {quest.title}
+                    </h4>
+                    <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-system-violet/10 text-system-violet font-bold whitespace-nowrap">
+                      +{quest.expReward} EXP
+                    </span>
+                  </div>
+                  <p className="font-mono text-[10px] text-gray-400 leading-normal">
+                    {quest.description}
+                  </p>
+                </div>
+              </button>
+            ))
+          )}
         </div>
       </div>
 

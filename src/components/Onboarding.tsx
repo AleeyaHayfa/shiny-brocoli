@@ -8,11 +8,11 @@ interface OnboardingProps {
 }
 
 export default function Onboarding({ onComplete }: OnboardingProps) {
-  const [age, setAge] = useState<number | ''>(24);
-  const [height, setHeight] = useState<number | ''>(150); // defaulted as requested
-  const [currentWeight, setCurrentWeight] = useState<number | ''>(68);
-  const [targetWeight, setTargetWeight] = useState<number | ''>(60);
-  const [bodyFat, setBodyFat] = useState<number | ''>('');
+  const [age, setAge] = useState<string>('24');
+  const [height, setHeight] = useState<string>('150'); // defaulted as requested
+  const [currentWeight, setCurrentWeight] = useState<string>('68');
+  const [targetWeight, setTargetWeight] = useState<string>('60');
+  const [bodyFat, setBodyFat] = useState<string>('');
   const [goal] = useState<'recomp' | 'fat_loss' | 'muscle_gain'>('recomp');
   const [isAwakening, setIsAwakening] = useState<boolean>(false);
 
@@ -80,10 +80,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     min={12}
                     max={100}
                     value={age}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setAge(val === '' ? '' : parseInt(val) || '');
-                    }}
+                    onChange={(e) => setAge(e.target.value)}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">Yrs</span>
@@ -101,10 +98,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     min={80}
                     max={250}
                     value={height}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setHeight(val === '' ? '' : parseInt(val) || '');
-                    }}
+                    onChange={(e) => setHeight(e.target.value)}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">cm</span>
@@ -123,10 +117,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     step="0.1"
                     required
                     value={currentWeight}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setCurrentWeight(val === '' ? '' : parseFloat(val) || '');
-                    }}
+                    onChange={(e) => setCurrentWeight(e.target.value)}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">kg</span>
@@ -143,10 +134,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     step="0.1"
                     required
                     value={targetWeight}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setTargetWeight(val === '' ? '' : parseFloat(val) || '');
-                    }}
+                    onChange={(e) => setTargetWeight(e.target.value)}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">kg</span>
@@ -165,10 +153,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   max={60}
                   placeholder="e.g. 18"
                   value={bodyFat}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setBodyFat(val === '' ? '' : parseInt(val) || '');
-                  }}
+                  onChange={(e) => setBodyFat(e.target.value)}
                   className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                 />
                 <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">%</span>
