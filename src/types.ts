@@ -1,4 +1,5 @@
 export interface PlayerStats {
+  username?: string;
   age: number;
   height: number;
   currentWeight: number;

@@ -10,11 +10,19 @@ interface PlayerStatusProps {
   onAddWeightLog: (weight: number) => void;
   completedQuestsCount: number;
   onUpdateSystemStatus?: (newSystem: SystemStatus) => void;
+  onUpdateStats?: (newStats: PlayerStats) => void;
 }
 
-export default function PlayerStatus({ stats, system, weightLogs, onAddWeightLog, completedQuestsCount, onUpdateSystemStatus }: PlayerStatusProps) {
+export default function PlayerStatus({ stats, system, weightLogs, onAddWeightLog, completedQuestsCount, onUpdateSystemStatus, onUpdateStats }: PlayerStatusProps) {
   const [newWeight, setNewWeight] = useState<string>('');
   const [errorMsg, setErrorMsg] = useState<string>('');
+  
+  // Profile edit sub-states
+  const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
+  const [editUsername, setEditUsername] = useState<string>(stats.username || 'SHADOW_PLAYER');
+  const [editAge, setEditAge] = useState<string>(String(stats.age));
+  const [editHeight, setEditHeight] = useState<string>(String(stats.height));
+  const [editTargetWeight, setEditTargetWeight] = useState<string>(String(stats.targetWeight));
   
   const [historyTab, setHistoryTab] = useState<'weekly' | 'monthly'>('weekly');
   const [selectedHistoryWeek, setSelectedHistoryWeek] = useState<number>(() => {
@@ -112,8 +120,117 @@ export default function PlayerStatus({ stats, system, weightLogs, onAddWeightLog
     return radarPoints.map(p => `${p.gridPoints[gridIdx].x},${p.gridPoints[gridIdx].y}`).join(' ');
   });
 
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!onUpdateStats) return;
+    
+    playSystemSound('levelup');
+    onUpdateStats({
+      ...stats,
+      username: editUsername.trim() || 'SHADOW_PLAYER',
+      age: Number(editAge) || stats.age,
+      height: Number(editHeight) || stats.height,
+      targetWeight: Number(editTargetWeight) || stats.targetWeight,
+    });
+    setIsEditingProfile(false);
+  };
+
   return (
     <div className="space-y-6" id="player-status-view">
+      {/* Player Identity Banner */}
+      <div className="p-4 rounded-sm border border-system-border bg-system-black relative overflow-hidden bg-scanlines flex items-center justify-between">
+        <div>
+          <span className="font-mono text-[9px] text-system-cyan uppercase tracking-[0.2em] block mb-0.5">PLAYER IDENTIFICATION</span>
+          <h2 className="font-display text-xl font-black text-white italic tracking-wide uppercase">
+            {stats.username || 'SHADOW_PLAYER'}
+          </h2>
+          <span className="font-mono text-[9px] text-gray-500 block mt-1">
+            Age {stats.age} Yrs &middot; Height {stats.height}cm
+          </span>
+        </div>
+        <button
+          onClick={() => {
+            playSystemSound('click');
+            setIsEditingProfile(!isEditingProfile);
+          }}
+          className="px-2.5 py-1.5 font-display text-[9px] font-bold text-system-cyan border border-system-cyan/35 hover:bg-system-cyan/15 rounded-none uppercase italic transition-all cursor-pointer"
+        >
+          {isEditingProfile ? '✕ Close' : '⚙️ Edit Profile'}
+        </button>
+      </div>
+
+      {isEditingProfile && (
+        <form onSubmit={handleSaveProfile} className="p-4 rounded-sm border border-system-cyan/50 bg-system-dark space-y-4 animate-fade-in" id="profile-alignment-form">
+          <h3 className="font-display text-xs font-bold tracking-[0.2em] text-system-cyan uppercase italic flex items-center gap-1">
+            <Sparkles size={12} className="animate-pulse" /> Alignment Adjustment
+          </h3>
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <label className="font-mono text-[9px] font-bold text-gray-500 uppercase tracking-widest block font-bold">
+                Update Username
+              </label>
+              <input
+                type="text"
+                required
+                maxLength={18}
+                value={editUsername}
+                onChange={(e) => setEditUsername(e.target.value.toUpperCase().replace(/\s+/g, '_'))}
+                className="w-full bg-system-black font-mono text-xs border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none focus:border-system-cyan/80"
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="space-y-1">
+                <label className="font-mono text-[9px] font-bold text-gray-500 uppercase tracking-widest block font-bold">
+                  Age (Yrs)
+                </label>
+                <input
+                  type="number"
+                  required
+                  min={12}
+                  max={100}
+                  value={editAge}
+                  onChange={(e) => setEditAge(e.target.value)}
+                  className="w-full bg-system-black font-mono text-xs border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="font-mono text-[9px] font-bold text-gray-500 uppercase tracking-widest block font-bold">
+                  Height (cm)
+                </label>
+                <input
+                  type="number"
+                  required
+                  min={80}
+                  max={250}
+                  value={editHeight}
+                  onChange={(e) => setEditHeight(e.target.value)}
+                  className="w-full bg-system-black font-mono text-xs border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="font-mono text-[9px] font-bold text-gray-550 uppercase tracking-widest block font-bold">
+                  Target (kg)
+                </label>
+                <input
+                  type="number"
+                  step="0.1"
+                  required
+                  value={editTargetWeight}
+                  onChange={(e) => setEditTargetWeight(e.target.value)}
+                  className="w-full bg-system-black font-mono text-xs border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none"
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="w-full py-2 bg-gradient-to-r from-system-cyan/70 to-system-blue/40 hover:from-system-cyan hover:to-system-blue border border-system-cyan/40 hover:border-system-cyan text-white font-display text-[9.5px] font-black tracking-widest uppercase italic transition-all rounded-none cursor-pointer"
+          >
+            Confirm Calibration Changes
+          </button>
+        </form>
+      )}
+
       {/* Target Weight Proximity Widget */}
       <div className="p-4 rounded-sm border border-system-border bg-system-dark relative overflow-hidden bg-scanlines grid grid-cols-3 gap-3">
         <div className="flex flex-col items-center justify-center border-r border-system-border pr-2">

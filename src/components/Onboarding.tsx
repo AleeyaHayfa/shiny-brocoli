@@ -8,6 +8,7 @@ interface OnboardingProps {
 }
 
 export default function Onboarding({ onComplete }: OnboardingProps) {
+  const [username, setUsername] = useState<string>('SHADOW_PLAYER');
   const [age, setAge] = useState<string>('24');
   const [height, setHeight] = useState<string>('150'); // defaulted as requested
   const [currentWeight, setCurrentWeight] = useState<string>('68');
@@ -22,6 +23,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     setIsAwakening(true);
 
     const stats: PlayerStats = {
+      username: username.trim() || 'SHADOW_PLAYER',
       age: Number(age) || 24,
       height: Number(height) || 150,
       currentWeight: Number(currentWeight) || 68,
@@ -67,6 +69,25 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           </div>
 
           <div className="space-y-4">
+            {/* Player Codename */}
+            <div className="space-y-1.5">
+              <label className="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-400">
+                Player Username / Codename
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  required
+                  maxLength={18}
+                  placeholder="e.g. SUNG_JIN_WOO"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value.toUpperCase().replace(/\s+/g, '_'))}
+                  className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
+                />
+                <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">ID</span>
+              </div>
+            </div>
+
             {/* Player Info Fields in dynamic grid */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">

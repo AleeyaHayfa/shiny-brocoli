@@ -451,11 +451,12 @@ export default function App() {
                 <span className="text-gray-650 font-normal">|</span>
                 <span className="text-gray-400 font-mono text-[9.5px] font-medium tracking-normal">{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}</span>
               </span>
-              <h1 className="font-display text-lg font-black tracking-tight text-white uppercase italic flex items-center gap-1.5 leading-none">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-system-cyan to-system-violet">
+              <h1 className="font-display text-sm font-black tracking-tight text-white uppercase italic flex items-center gap-2 leading-none">
+                <span className="text-white glow-cyan">{stats?.username || 'SHADOW_PLAYER'}</span>
+                <span className="px-1.5 py-0.5 text-[8.5px] text-gray-400 font-mono font-bold tracking-normal uppercase border border-gray-800 bg-gray-900 rounded-sm">
                   {getSubTitle(system.level)}
                 </span>
-                <Sparkles size={11} className="text-system-cyan animate-pulse" />
+                <Sparkles size={10} className="text-system-cyan animate-pulse" />
               </h1>
             </div>
           </div>
@@ -520,6 +521,7 @@ export default function App() {
             onAddWeightLog={handleAddWeightLog}
             completedQuestsCount={completedQuestsCount}
             onUpdateSystemStatus={(newSystem) => setSystem(newSystem)}
+            onUpdateStats={setStats}
           />
         )}
       </main>
