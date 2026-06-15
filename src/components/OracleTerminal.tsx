@@ -196,14 +196,12 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
     setTerminalLogs([]);
 
     const logs = [
-      `[SYSTEM] Connecting to Solo Leveling Oracle Matrix...`,
-      `[STATS] Analyzing height (${stats.height}cm) and target weight (${stats.targetWeight}kg)...`,
-      `[RULE] Locked class detected: HOME-BASED (NO EQUIPMENT)...`,
-      `[WEEK] CALIBRATING PROGRESSIVE OVERLOAD FOR WEEK: ${weekNum}...`,
-      `[MATH] Incrementing knee push-ups, planks, and burpee ratios by factor (+${(weekNum - 1) * 12}%)`,
-      `[DIET] Parsing strict Malaysian food index: NO FRIDGE, NO STOVE constraints...`,
-      `[ORACLE] Generating optimal macronutrient targets...`,
-      `[SYSTEM] Realignment calculations complete!`
+      `[SYSTEM] Syncing fitness routine settings...`,
+      `[STATS] Analyzing current metrics and weight goal...`,
+      `[RULE] Setting workouts for home (no equipment required)...`,
+      `[WEEK] Adjusting exercise sets and intervals for Week ${weekNum}...`,
+      `[DIET] Calibrating daily nutritional targets...`,
+      `[SYSTEM] Setup completed successfully!`
     ];
 
     logs.forEach((log, index) => {
@@ -237,7 +235,7 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
               Routine & Diet Planner
             </h2>
             <p className="font-mono text-[10px] text-gray-400">
-              CUSTOMIZE OR AUTO-GENERATE YOUR PROTOCOLS
+              CHOOSE WEEK OR EDIT MANUALLY
             </p>
           </div>
         </div>
@@ -272,7 +270,7 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
           </button>
         </div>
         <p className="font-mono text-[9.5px] text-gray-400 leading-relaxed">
-          Select your training week. This updates exercise intensities and meal plans to match your progress. You can also edit and type in your own customized days below!
+          This page lets you schedule your routine. Select a training week to instantly load recommended workouts and meal targets, or add/edit each day's steps manually by choosing one of the tabs below!
         </p>
       </div>
 
@@ -342,10 +340,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                   </div>
                   <div className="space-y-1.5">
                     <h3 className="font-display text-sm font-black uppercase italic tracking-wider text-white">
-                      Workout protocols start empty
+                      Workouts list is empty
                     </h3>
                     <p className="font-mono text-[10px] text-gray-400 leading-relaxed max-w-sm mx-auto">
-                      All files have been cleared for a clean slate. Tap <span className="text-system-cyan font-bold">"+ Add New Day / Routine"</span> above to type in your own customized exercise sheets, or slide the <span className="text-system-cyan font-bold">System Week Range</span> at the top to auto-fill an adaptive daily preset!
+                      Tap <span className="text-system-cyan font-bold">"+ Add New Day / Routine"</span> to type in your customized plan, or adjust the <span className="text-system-cyan font-bold">System Week</span> slider at the top to auto-fill preset home exercises!
                     </p>
                   </div>
                 </div>
@@ -712,10 +710,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                   </div>
                   <div className="space-y-1.5">
                     <h3 className="font-display text-sm font-black uppercase italic tracking-wider text-white">
-                      Meal protocols start empty
+                      Meal plans are empty
                     </h3>
                     <p className="font-mono text-[10px] text-gray-400 leading-relaxed max-w-sm mx-auto">
-                      All meal items have been cleared for manual setup. Click <span className="text-system-violet font-bold">"📝 Edit Diet Plan"</span> above to set up your own customized items, or slide the <span className="text-system-violet font-bold">System Week Range</span> at the top to recreate progressive Malaysian shelf-stable recommendations!
+                      Click <span className="text-system-violet font-bold">"📝 Edit Diet Plan"</span> to list your daily meals, or use the <span className="text-system-violet font-bold">System Week</span> slider at the top to load preset Malaysian shelf-stable ideas automatically.
                     </p>
                   </div>
                 </div>

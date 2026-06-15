@@ -81,7 +81,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
             </span>
           </div>
           <div className="mt-2 font-mono text-[8px] text-system-pink uppercase tracking-wide">
-            {streak > 2 ? '🔥 streak multiplier active!' : 'Complete daily quests'}
+            {streak > 0 ? '🔥 Keep consistency!' : 'Complete daily quests'}
           </div>
         </div>
 
@@ -94,8 +94,11 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
             <Calendar size={13} className="text-system-cyan animate-pulse" />
           </div>
           <div className="mt-4">
-            <span className="font-mono text-base font-bold tracking-[0.15em] text-gray-400">
+            <span className="font-mono text-base font-bold tracking-[0.15em] text-gray-400 block leading-tight">
               {timeRemaining || '00:00:00'}
+            </span>
+            <span className="font-mono text-[9px] text-gray-500 uppercase tracking-wider block mt-1">
+              {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' }).toUpperCase()}
             </span>
           </div>
           <button
@@ -106,7 +109,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
             id="force-midnight-reset-btn"
             className="mt-2 font-mono text-[8px] text-system-cyan hover:text-white flex items-center gap-1 uppercase tracking-wider transition-all font-bold text-left"
           >
-            <RefreshCw size={9} /> End & Archive Day {currentDay} Protocol
+            <RefreshCw size={9} /> Reset for next Day {currentDay}
           </button>
         </div>
       </div>
@@ -129,7 +132,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
               <div className="flex items-center gap-2">
                 <Award size={16} className={isRestDay ? 'text-system-violet animate-bounce' : 'text-gray-500'} />
                 <span className={`font-display font-black text-xs uppercase tracking-[0.14em] italic ${isRestDay ? 'text-system-violet glow-purple' : 'text-gray-300'}`}>
-                  {isRestDay ? '⚡ REGENERATION PROTOCOL LIVE' : '⭐ RECOVERY STREAK SHIELD'}
+                  {isRestDay ? '⚡ REST DAY ACTIVE' : '⭐ REST DAY STATUS'}
                 </span>
               </div>
             </div>
@@ -231,16 +234,16 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
               ? 'bg-system-violet/10 border border-system-violet/25 text-system-violet' 
               : 'bg-system-cyan/10 border border-system-cyan/25 text-system-cyan'
           }`}>
-            <Zap size={9} className="animate-pulse" /> {isRestDay ? 'Regeneration Protocol Active' : 'System Quest Deck'}
+            <Zap size={9} className="animate-pulse" /> {isRestDay ? 'Active Rest Day' : 'Your Daily Quests'}
           </div>
           <div>
             <h4 className="font-display font-black text-sm tracking-widest text-white uppercase italic">
-              {isRestDay ? 'Active Standing Recovery' : 'Daily Clearing Protocol'}
+              {isRestDay ? 'Active Regeneration' : 'Daily Routine'}
             </h4>
             <p className="font-mono text-[9.5px] text-gray-400 leading-normal max-w-sm">
               {isRestDay 
-                ? 'Your rest day is active. Daily quests are paused and your streak is fully protected.'
-                : 'Complete all workout and diet quests below before midnight to level up your stats.'}
+                ? 'Your rest day is active. Streak protected, take time to recover.'
+                : 'Complete workouts and diet goals today to build your streak and stats.'}
             </p>
           </div>
           
@@ -292,7 +295,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
         <div className="flex items-center gap-2 text-system-cyan pl-1">
           <div className="w-2 h-2 bg-system-cyan shadow-[0_0_8px_#00F0FF] rounded-none"></div>
           <h3 className="font-display font-bold uppercase tracking-[0.15em] text-sm italic">
-            Physical Quests (Workouts)
+            Workouts
           </h3>
         </div>
 
@@ -300,10 +303,10 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
           {workoutQuests.length === 0 ? (
             <div className="p-5 border border-system-border bg-system-dark/35 rounded-none text-center space-y-2.5">
               <p className="font-display text-xs font-black uppercase text-gray-500 tracking-[0.05em] italic">
-                ⚔️ Workout list starts empty
+                Workouts list is empty
               </p>
               <p className="font-mono text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">
-                No active workouts assigned. Based on your preferences, visit the <span className="text-system-cyan font-bold">Oracle tab</span> to type in your own customized exercise routine!
+                No workouts assigned. Go to the <span className="text-system-cyan font-bold">Planner tab</span> to select a week or configure your routine.
               </p>
             </div>
           ) : (
@@ -350,7 +353,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
         <div className="flex items-center gap-2 text-system-violet pl-1">
           <div className="w-2 h-2 bg-system-violet shadow-[0_0_8px_rgb(138,43,226)] rounded-none"></div>
           <h3 className="font-display font-bold uppercase tracking-[0.15em] text-sm italic">
-            Nutritional Quests (Malaysian No-Cook)
+            Daily Diet Plan
           </h3>
         </div>
 
@@ -358,10 +361,10 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
           {nutritionQuests.length === 0 ? (
             <div className="p-5 border border-system-border bg-system-dark/35 rounded-none text-center space-y-2.5">
               <p className="font-display text-xs font-black uppercase text-gray-500 tracking-[0.05em] italic">
-                🍎 Diet list starts empty
+                Diet list is empty
               </p>
               <p className="font-mono text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">
-                No active meal plans assigned. Based on your preferences, visit the <span className="text-system-violet font-bold">Oracle tab</span> to type in your own customized diet and daily meal objectives!
+                No active meal plans. Go to the <span className="text-system-violet font-bold">Planner tab</span> to customize or load Malaysian shelf-stable recommendations.
               </p>
             </div>
           ) : (
@@ -409,7 +412,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-system-violet shadow-[0_0_8px_rgb(138,43,226)] rounded-none"></div>
             <h3 className="font-display font-bold uppercase tracking-[0.15em] text-sm italic">
-              Alchemical Lab (Diet Trackers)
+              Consumables Trackers
             </h3>
           </div>
           <button
@@ -419,14 +422,14 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
             }}
             className="px-2.5 py-1 text-[9px] font-display font-extrabold uppercase italic tracking-wider text-system-violet border border-system-violet/30 hover:bg-system-violet/10 rounded-none transition-all active:scale-95 flex items-center gap-1 cursor-pointer"
           >
-            {showAddForm ? '✕ Close' : '+ Forge Custom'}
+            {showAddForm ? '✕ Close' : '+ Add Tracker'}
           </button>
         </div>
 
         {showAddForm && (
           <form onSubmit={handleSubmitTracker} className="p-4 bg-system-dark border border-system-violet/40 rounded-sm space-y-3.5 animate-fade-in" id="diet-forge-form">
-            <h4 className="font-display text-[10px] font-extrabold tracking-widest text-system-violet uppercase italic flex items-center gap-1">
-              <Sparkles size={11} className="animate-spin" /> FORGE EXPERIMENTAL RECOVERY DIET ELIXIR
+            <h4 className="font-display text-[10px] font-bold tracking-widest text-system-violet uppercase italic flex items-center gap-1">
+              <Sparkles size={11} className="animate-spin" /> ADD CUSTOM CONSUMABLE TRACKER
             </h4>
             <div className="space-y-3">
               <div>
@@ -471,7 +474,7 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
               type="submit"
               className="w-full py-2 bg-gradient-to-r from-system-violet/60 to-system-blue/40 hover:from-system-violet hover:to-system-blue border border-system-violet/50 hover:border-system-violet text-white font-display text-[10px] font-extrabold tracking-widest uppercase italic transition-all active:scale-95 rounded-none cursor-pointer"
             >
-              Forge Diet Elixir (+15 XP Clear Bonus)
+              Add Tracker
             </button>
           </form>
         )}
@@ -554,17 +557,17 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
         </div>
       </div>
 
-      {/* Extreme System Warnings (System Quests) */}
-      <div className="p-4 bg-red-950/10 border border-red-950/40 bg-scanlines rounded-sm flex gap-3.5" id="system-penalty-warning">
-        <div className="pt-0.5 text-red-500">
-          <Skull size={18} className="animate-pulse" />
+      {/* Keep Consistent Warning */}
+      <div className="p-4 bg-system-dark border border-system-border bg-scanlines rounded-sm flex gap-3.5" id="system-penalty-warning">
+        <div className="pt-0.5 text-system-pink">
+          <Flame size={18} className="animate-pulse" />
         </div>
         <div className="space-y-1.5">
-          <h4 className="font-display text-xs font-bold uppercase text-red-500 tracking-[0.2em] italic">
-            Active System Penalty Protocol
+          <h4 className="font-display text-xs font-bold uppercase text-system-pink tracking-[0.2em] italic">
+            Streak Consistency
           </h4>
           <p className="font-mono text-[10px] text-gray-400 leading-relaxed">
-            Failure to complete all daily quests before midnight triggers system penalty protocols. Stay consistent to protect your raw physical stats level.
+            Stay consistent and check your goals off daily to advance your character levels and stats.
           </p>
         </div>
       </div>

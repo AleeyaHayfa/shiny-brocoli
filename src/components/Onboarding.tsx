@@ -56,13 +56,13 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         <form onSubmit={handleSubmit} className="space-y-6" id="onboarding-form">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-system-violet/15 border border-system-violet/30 rounded-none text-[10px] uppercase font-mono tracking-widest text-system-violet">
-              <Sparkles size={11} className="text-system-violet animate-pulse" /> Welcome, Awakened Player
+              <Sparkles size={11} className="text-system-violet animate-pulse" /> Welcome
             </div>
             <h1 className="font-display text-4xl font-extrabold tracking-widest italic uppercase text-white glow-cyan">
               The System
             </h1>
             <p className="font-mono text-xs text-gray-400">
-              INITIATE SYSTEM AWAKENING BY SPECIFYING LEVEL-1 PHYSICAL METRICS.
+              Enter your physical metrics to unlock your custom plan.
             </p>
           </div>
 
@@ -164,12 +164,12 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             <div className="p-4 bg-system-dark border border-system-violet/30 bg-scanlines rounded-none space-y-2">
               <div className="flex items-center gap-2.5 text-system-violet">
                 <Lock size={16} className="animate-pulse" />
-                <span className="font-display text-sm font-extrabold tracking-widest uppercase italic">
-                  Class Constraint Active
+                <span className="font-display text-xs font-bold tracking-widest uppercase italic">
+                  Equipment Standard
                 </span>
               </div>
               <p className="font-mono text-[10px] text-gray-400 leading-relaxed">
-                CLASS IS LOCKED TO <b className="text-white">HOME-BASED (NO EQUIPMENT)</b>. WORKOUTS USE BODYWEIGHT AND CAN BE COMPLETED ANYWHERE.
+                Workout plans are configured for <b className="text-white">home bodyweight execution</b> with no equipment needed.
               </p>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             id="awakening-submit-btn"
             className="w-full mt-2 py-4 px-6 font-display font-black tracking-widest text-[#050505] bg-gradient-to-r from-system-cyan via-system-blue to-system-violet hover:brightness-110 shadow-neon-cyan transition-all uppercase italic rounded-none flex items-center justify-center gap-2 cursor-pointer"
           >
-            Awaken Player <ArrowRight size={18} />
+            Enter System <ArrowRight size={18} />
           </button>
         </form>
       )}

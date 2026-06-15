@@ -446,8 +446,10 @@ export default function App() {
               Lvl {system.level}
             </div>
             <div className="flex flex-col">
-              <span className="text-system-cyan text-[10px] font-bold tracking-[0.25em] uppercase mb-0.5">
-                SYSTEM INTERFACE v4.2
+              <span className="text-system-cyan text-[10px] font-bold tracking-[0.2em] uppercase mb-0.5 flex items-center gap-1.5 flex-wrap">
+                <span>SYSTEM INTERFACE v4.2</span>
+                <span className="text-gray-650 font-normal">|</span>
+                <span className="text-gray-400 font-mono text-[9.5px] font-medium tracking-normal">{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}</span>
               </span>
               <h1 className="font-display text-lg font-black tracking-tight text-white uppercase italic flex items-center gap-1.5 leading-none">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-system-cyan to-system-violet">
@@ -469,7 +471,7 @@ export default function App() {
         {/* EXP Bar widget */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center font-mono text-[9px] font-bold uppercase tracking-widest text-system-violet">
-            <span>EXP GAUGE REQUIREMENTS</span>
+            <span>EXPERIENCE POINTS</span>
             <span className="text-system-cyan font-bold tracking-wider">{system.exp} / {system.requiredExp} EXP</span>
           </div>
           <div className="relative w-full h-2.5 bg-system-black rounded-sm overflow-hidden border border-system-violet/30">

@@ -135,18 +135,18 @@ export function LevelUpModal({ level, onClose }: LevelUpProps) {
             Level Up!
           </h2>
           <p className="font-mono text-xs text-gray-400 mb-6 tracking-wide">
-            THE SYSTEM RECOGNIZED YOUR COMPLETED DAILY QUESTS. YOUR BODY AFFINITY IS ASCENDING.
+            You completed your daily quests successfully. Keep up the high performance!
           </p>
 
           <div className="p-4 rounded-none border border-system-border bg-system-black mb-6 inline-flex flex-col items-center justify-center min-w-[200px]">
             <span className="font-mono text-xs text-gray-500 uppercase tracking-widest">
-              Current Tier
+              Current Level
             </span>
-            <span className="font-display text-5xl font-black text-white italic tracking-tighter">
-              Lvl {level}
+            <span className="font-display text-4xl block font-black text-white italic tracking-tighter mt-1">
+              Level {level}
             </span>
             <span className="font-mono text-[10px] text-system-cyan tracking-wider mt-2.5 bg-system-cyan/10 px-2.5 py-0.5 rounded-none border border-system-cyan/20">
-              ROLE: S-RANK HEIR
+              RANK: ACTIVE ATHLETE
             </span>
           </div>
 
@@ -210,15 +210,15 @@ export function PenaltyAlert({ onClose }: PenaltyProps) {
           System Warning
         </span>
 
-        <h2 className="font-display text-3xl font-extrabold tracking-wide uppercase italic text-red-500 mt-4 mb-2">
-          Penalty Zone Threat!
+        <h2 className="font-display text-2xl font-extrabold tracking-wide uppercase italic text-red-500 mt-4 mb-2">
+          Missed Daily Routine!
         </h2>
         <p className="font-mono text-xs text-gray-400 mb-6">
-          QUEST COMPLETION LEVEL DRIPPED TO ZERO FOR TODAY. COMMENCE ADAPTATION OR RISK ATTRIBUTES PENALIZATION!
+          You finished the day with 0 completed quests. Complete a quick makeup session to protect your streak!
         </p>
 
         <div className="p-4 rounded-none border border-red-500/20 bg-red-950/10 text-red-100 text-xs font-mono space-y-1 mb-8">
-          <p>PENALTY TASK: COMPLETE 5 MINUTES PLANK EXTENSION HOLD ASAP TO PREVENT LEVEL DECAY RISK.</p>
+          <p>CHILL EXERCISE: HOLD A 2-MINUTE PLANK OR DO 15 SQUATS NOW TO RESTORE FOCUS.</p>
         </div>
 
         <button

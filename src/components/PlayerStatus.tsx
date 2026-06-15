@@ -140,7 +140,7 @@ export default function PlayerStatus({ stats, system, weightLogs, onAddWeightLog
       {/* Gamified Radar Spider Chart */}
       <div className="p-5 rounded-sm border border-system-border bg-system-card flex flex-col items-center justify-center text-center relative overflow-hidden">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-system-cyan uppercase italic mb-3 flex items-center gap-1.5">
-          <Trophy size={12} /> STATUS WINDOW ATTRIBUTE RADAR
+          <Trophy size={12} /> CHARACTER STATS
         </h3>
         
         <div className="relative w-52 h-52">
