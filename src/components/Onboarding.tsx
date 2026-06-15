@@ -8,12 +8,12 @@ interface OnboardingProps {
 }
 
 export default function Onboarding({ onComplete }: OnboardingProps) {
-  const [age, setAge] = useState<number>(24);
-  const [height, setHeight] = useState<number>(150); // defaulted as requested
-  const [currentWeight, setCurrentWeight] = useState<number>(68);
-  const [targetWeight, setTargetWeight] = useState<number>(60);
-  const [bodyFat, setBodyFat] = useState<number | undefined>(undefined);
-  const [goal, setGoal] = useState<'recomp' | 'fat_loss' | 'muscle_gain'>('recomp');
+  const [age, setAge] = useState<number | ''>(24);
+  const [height, setHeight] = useState<number | ''>(150); // defaulted as requested
+  const [currentWeight, setCurrentWeight] = useState<number | ''>(68);
+  const [targetWeight, setTargetWeight] = useState<number | ''>(60);
+  const [bodyFat, setBodyFat] = useState<number | ''>('');
+  const [goal] = useState<'recomp' | 'fat_loss' | 'muscle_gain'>('recomp');
   const [isAwakening, setIsAwakening] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,11 +22,11 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
     setIsAwakening(true);
 
     const stats: PlayerStats = {
-      age,
-      height,
-      currentWeight,
-      targetWeight,
-      bodyFat: bodyFat || undefined,
+      age: Number(age) || 24,
+      height: Number(height) || 150,
+      currentWeight: Number(currentWeight) || 68,
+      targetWeight: Number(targetWeight) || 60,
+      bodyFat: bodyFat !== '' ? Number(bodyFat) : undefined,
       goal
     };
 
@@ -80,7 +80,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     min={12}
                     max={100}
                     value={age}
-                    onChange={(e) => setAge(parseInt(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setAge(val === '' ? '' : parseInt(val) || '');
+                    }}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">Yrs</span>
@@ -98,7 +101,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     min={80}
                     max={250}
                     value={height}
-                    onChange={(e) => setHeight(parseInt(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setHeight(val === '' ? '' : parseInt(val) || '');
+                    }}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">cm</span>
@@ -117,7 +123,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     step="0.1"
                     required
                     value={currentWeight}
-                    onChange={(e) => setCurrentWeight(parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setCurrentWeight(val === '' ? '' : parseFloat(val) || '');
+                    }}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">kg</span>
@@ -134,7 +143,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     step="0.1"
                     required
                     value={targetWeight}
-                    onChange={(e) => setTargetWeight(parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setTargetWeight(val === '' ? '' : parseFloat(val) || '');
+                    }}
                     className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                   />
                   <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">kg</span>
@@ -152,46 +164,14 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   min={2}
                   max={60}
                   placeholder="e.g. 18"
-                  value={bodyFat || ''}
-                  onChange={(e) => setBodyFat(parseInt(e.target.value) || undefined)}
+                  value={bodyFat}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setBodyFat(val === '' ? '' : parseInt(val) || '');
+                  }}
                   className="w-full bg-system-black font-mono text-sm border border-system-border focus:border-system-cyan rounded-none px-3 py-2 text-white outline-none transition-all"
                 />
                 <span className="absolute right-3 top-2.5 font-mono text-[10px] text-gray-600">%</span>
-              </div>
-            </div>
-
-            {/* RPG Core goal selection */}
-            <div className="space-y-1.5">
-              <label className="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-400">
-                Primary Stat Affinity (Goal)
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                {(['recomp', 'fat_loss', 'muscle_gain'] as const).map((g) => (
-                  <button
-                    key={g}
-                    type="button"
-                    onClick={() => {
-                      playSystemSound('click');
-                      setGoal(g);
-                    }}
-                    className={`px-2 py-3 rounded-none border font-display font-bold italic uppercase tracking-wider text-xs flex flex-col items-center justify-center transition-all ${
-                      goal === g
-                        ? 'border-glow-cyan bg-system-cyan/15 text-system-cyan'
-                        : 'border-system-border bg-system-dark text-gray-400 hover:border-gray-805'
-                    }`}
-                  >
-                    <span className="text-[10px] tracking-wide mb-1 opacity-70">
-                      {g === 'recomp' && 'RECOMP'}
-                      {g === 'fat_loss' && 'FAT LOSS'}
-                      {g === 'muscle_gain' && 'BULK UP'}
-                    </span>
-                    <span className="font-mono text-[8px] opacity-50 lowercase">
-                      {g === 'recomp' && 'balanced'}
-                      {g === 'fat_loss' && 'shred'}
-                      {g === 'muscle_gain' && 'strength'}
-                    </span>
-                  </button>
-                ))}
               </div>
             </div>
 
@@ -204,7 +184,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                 </span>
               </div>
               <p className="font-mono text-[10px] text-gray-400 leading-relaxed">
-                THE SYSTEM HAS FORCE-LOCKED TO: <b className="text-white">HOME-BASED CLASS (NO EQUIPMENT AVAILABLE)</b>. ALL EXERCISES ARE CALIBRATED USING STRICT PROGRESSIVE BODYWEIGHT GEOMETRIES.
+                CLASS IS LOCKED TO <b className="text-white">HOME-BASED (NO EQUIPMENT)</b>. WORKOUTS USE BODYWEIGHT AND CAN BE COMPLETED ANYWHERE.
               </p>
             </div>
           </div>

@@ -28,10 +28,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
 
   // Nutrition editing states
   const [isEditingNutrition, setIsEditingNutrition] = useState<boolean>(false);
-  const [draftCalories, setDraftCalories] = useState<number>(plan.nutrition.calories);
-  const [draftProtein, setDraftProtein] = useState<number>(plan.nutrition.protein);
-  const [draftCarbs, setDraftCarbs] = useState<number>(plan.nutrition.carbs);
-  const [draftFat, setDraftFat] = useState<number>(plan.nutrition.fat);
+  const [draftCalories, setDraftCalories] = useState<number | ''>(plan.nutrition.calories);
+  const [draftProtein, setDraftProtein] = useState<number | ''>(plan.nutrition.protein);
+  const [draftCarbs, setDraftCarbs] = useState<number | ''>(plan.nutrition.carbs);
+  const [draftFat, setDraftFat] = useState<number | ''>(plan.nutrition.fat);
   const [draftMeals, setDraftMeals] = useState<any[]>(plan.nutrition.recommendations);
 
   const startEditingDay = (dayIdx: number) => {
@@ -143,10 +143,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
     onPlanUpdated({
       ...plan,
       nutrition: {
-        calories: draftCalories,
-        protein: draftProtein,
-        carbs: draftCarbs,
-        fat: draftFat,
+        calories: Number(draftCalories) || 0,
+        protein: Number(draftProtein) || 0,
+        carbs: Number(draftCarbs) || 0,
+        fat: Number(draftFat) || 0,
         recommendations: draftMeals,
       },
     }, selectedWeek);
@@ -234,20 +234,20 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
           </div>
           <div>
             <h2 className="font-display text-xl font-bold italic uppercase text-white tracking-widest flex items-center gap-1.5">
-              Solo Oracle Terminal
+              Routine & Diet Oracle
             </h2>
             <p className="font-mono text-[10px] text-gray-400">
-              CLASS-D REALTIME REALIGNMENT ENGINE
+              PLAN GENERATOR & CUSTOMIZER
             </p>
           </div>
         </div>
       </div>
 
-      {/* Week selection slider with immediate feedback to prove progressive overload rules */}
+      {/* Week selection slider with immediate feedback */}
       <div className="p-4 rounded-sm border border-system-border bg-system-card space-y-3">
         <div className="flex justify-between items-center">
           <span className="font-mono text-[10px] font-bold tracking-widest text-gray-500 uppercase">
-            Overload Multiplier (System Week)
+            Select System Week (1 to 8)
           </span>
           <span className="font-display font-black text-system-cyan italic">
             WEEK {selectedWeek} / 8
@@ -271,8 +271,8 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
             <SkipForward size={14} />
           </button>
         </div>
-        <p className="font-mono text-[9px] text-gray-500 leading-normal">
-          Modifying the system week instructs the Oracle to increment exercise volume, reps, sets, and load timings mathematically dynamically to trigger muscle recomposition adaptation.
+        <p className="font-mono text-[9.5px] text-gray-400 leading-relaxed">
+          Changing the week automatically adjusts your exercises (sets and reps) and diet macros to keep challenging you and help you of getting stronger over time. You can also edit any routine below!
         </p>
       </div>
 
@@ -409,8 +409,11 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                                   <input
                                     type="number"
                                     min="1"
-                                    value={draftEx.sets}
-                                    onChange={(e) => updateDraftField(dIdx, 'sets', parseInt(e.target.value) || 1)}
+                                    value={draftEx.sets === 0 ? '' : draftEx.sets}
+                                    onChange={(e) => {
+                                      const val = e.target.value;
+                                      updateDraftField(dIdx, 'sets', val === '' ? 0 : parseInt(val) || 0);
+                                    }}
                                     className="w-full bg-system-dark border border-system-border text-center text-xs py-0.5 outline-none font-mono text-white"
                                   />
                                 </div>
@@ -538,7 +541,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                     <input
                       type="number"
                       value={draftCalories}
-                      onChange={(e) => setDraftCalories(parseInt(e.target.value) || 0)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setDraftCalories(val === '' ? '' : parseInt(val) || '');
+                      }}
                       className="bg-system-black border border-system-border text-center font-display text-sm font-black text-white w-full py-0.5 mt-1 outline-none"
                     />
                     <span className="text-[8px] text-gray-600 font-bold lowercase">kcal</span>
@@ -548,7 +554,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                     <input
                       type="number"
                       value={draftProtein}
-                      onChange={(e) => setDraftProtein(parseInt(e.target.value) || 0)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setDraftProtein(val === '' ? '' : parseInt(val) || '');
+                      }}
                       className="bg-system-black border border-system-border text-center font-display text-sm font-black text-system-violet w-full py-0.5 mt-1 outline-none font-bold"
                     />
                     <span className="text-[8px] text-system-violet/60 font-bold uppercase">STR</span>
@@ -558,7 +567,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                     <input
                       type="number"
                       value={draftCarbs}
-                      onChange={(e) => setDraftCarbs(parseInt(e.target.value) || 0)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setDraftCarbs(val === '' ? '' : parseInt(val) || '');
+                      }}
                       className="bg-system-black border border-system-border text-center font-display text-sm font-black text-white w-full py-0.5 mt-1 outline-none"
                     />
                     <span className="text-[8px] text-gray-600 font-bold uppercase">ENE</span>
@@ -568,7 +580,10 @@ export default function OracleTerminal({ stats, currentWeek, onPlanUpdated, plan
                     <input
                       type="number"
                       value={draftFat}
-                      onChange={(e) => setDraftFat(parseInt(e.target.value) || 0)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setDraftFat(val === '' ? '' : parseInt(val) || '');
+                      }}
                       className="bg-system-black border border-system-border text-center font-display text-sm font-black text-white w-full py-0.5 mt-1 outline-none"
                     />
                     <span className="text-[8px] text-gray-600 font-bold uppercase">VIT</span>

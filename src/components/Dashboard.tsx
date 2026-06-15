@@ -23,13 +23,14 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
   const [timeRemaining, setTimeRemaining] = useState<string>('');
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [newTrackerName, setNewTrackerName] = useState<string>('');
-  const [newTrackerTarget, setNewTrackerTarget] = useState<number>(1);
+  const [newTrackerTarget, setNewTrackerTarget] = useState<number | ''>(1);
   const [newTrackerUnit, setNewTrackerUnit] = useState<string>('glasses');
 
   const handleSubmitTracker = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTrackerName.trim()) return;
-    onAddDietTracker(newTrackerName, newTrackerTarget, newTrackerUnit);
+    const targetVal = newTrackerTarget === '' ? 1 : Number(newTrackerTarget) || 1;
+    onAddDietTracker(newTrackerName, targetVal, newTrackerUnit);
     setNewTrackerName('');
     setNewTrackerTarget(1);
     setNewTrackerUnit('glasses');
@@ -236,10 +237,10 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
             <h4 className="font-display font-black text-sm tracking-widest text-white uppercase italic">
               {isRestDay ? 'Active Standing Recovery' : 'Daily Clearing Protocol'}
             </h4>
-            <p className="font-mono text-[10px] text-gray-400 leading-normal">
+            <p className="font-mono text-[9.5px] text-gray-400 leading-normal max-w-sm">
               {isRestDay 
-                ? 'Streak preservation active. Today is defined as rest day. All daily quests are paused to support muscle recovery.'
-                : 'Accumulate required EXP by completing all physical and diet quests before midnight.'}
+                ? 'Your rest day is active. Daily quests are paused and your streak is fully protected.'
+                : 'Complete all workout and diet quests below before midnight to level up your stats.'}
             </p>
           </div>
           
@@ -272,16 +273,16 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
       {isRestDay && (
         <div className="p-4 rounded-sm border border-system-violet/40 bg-system-violet/5 space-y-2 relative overflow-hidden bg-scanlines animate-pulse" id="rest-active-glowing-banner">
           <div className="absolute top-0 right-0 p-1.5 font-mono text-[7px] text-system-violet/60 font-black uppercase tracking-widest bg-system-violet/10">
-            SYSTEM PAUSED
+            PAUSED
           </div>
           <div className="flex items-center gap-2">
             <Award className="text-system-violet animate-bounce" size={16} />
             <span className="font-display font-black text-xs uppercase tracking-[0.15em] text-system-violet glow-purple italic">
-              REGENERATION PROTOCOL LIVE
+              REST DAY ACTIVE
             </span>
           </div>
-          <p className="font-mono text-[10px] text-gray-400 leading-normal">
-            Physical exertion requirements have been put on standing status. All diet and workout targets are archived at full compliance. Current <span className="text-white font-bold">{streak} Day streak</span> is fully protected for the next 24 hour cycle.
+          <p className="font-mono text-[10px] text-gray-400 leading-relaxed">
+            All daily requirements are paused. Today is marked as fully compliant, and your <span className="text-white font-bold">{streak}-day streak</span> is protected!
           </p>
         </div>
       )}
@@ -424,8 +425,11 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
                     type="number"
                     min="1"
                     required
-                    value={newTrackerTarget || ''}
-                    onChange={(e) => setNewTrackerTarget(parseInt(e.target.value) || 1)}
+                    value={newTrackerTarget}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setNewTrackerTarget(val === '' ? '' : parseInt(val) || '');
+                    }}
                     className="w-full bg-system-black border border-system-border focus:border-system-violet px-3 py-2 text-white text-xs rounded-none outline-none"
                   />
                 </div>
