@@ -131,11 +131,6 @@ export default function Dashboard({ stats, plan, quests, onQuestToggle, onResetD
                   {isRestDay ? '⚡ REGENERATION PROTOCOL LIVE' : '⭐ RECOVERY STREAK SHIELD'}
                 </span>
               </div>
-              <p className="font-mono text-[10.5px] text-gray-400 max-w-xl leading-relaxed">
-                {isRestDay 
-                  ? 'Your standing workout and dietary requirements are official paused. Today has been archived as 100% compliant. Your precious active streak is protected!' 
-                  : 'Taking a physical break or a active rest day? Toggle the Rest Day mode to pause workout demands while maintaining your active streak in perfect condition.'}
-              </p>
             </div>
             
             <button
